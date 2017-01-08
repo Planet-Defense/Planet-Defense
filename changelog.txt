@@ -1,0 +1,325 @@
+   Welcome to PD
+   
+Planet Defense 2.03
+
+-Changes on Balancement;
+
+-Added 2 new options
+1. -Removed Normal&Hard Options.
+2. -Renamed Easy to +9 Players.
+3. -Burrows can be killed but not longer can be dguned by normal com.
+4. -Burrow angers now fix on all modes to 2,3&4% when a burrow dies.
+5. -Increased x2 burrow HP
+6. -Rebalanced Level spawns.
+7. -Level 0,1 and 2, when a burrow dies no longer spawns T3 aa, only on lvl 3&4
+8. -Queentime default 90 minutes
+9. -Increased Grace period up to 360 seconds, default 120 seconds.
+
+Planet Defense 2.01
+
+-Changes on Balancement;
+
+-Added 2 new options
+1. -1-4 PLAYERS Balanced for N' players listed
+2. -5-8 PLAYERS Balanced for N' players listed
+(THESE OPTIONS WHEN DGUN OR KILL 1 BURROW KING WILL SPAWN INMEDIATELLY!).
+
+-Difficult level rebalanced
+-Levels are now 0-1-2-3-4-5. greater the level greater the difficult (last one is for chickens only).
+
+
+Welcome to PA
+
+Planet Annihilation 3.8
+
+-Changes On Balancement;
+
+{[CORE]}
+       BUILDINGS:
+-Behemoth and Long range behemoth no longer special damage.-
+-Airstrike no longer storage energy, Removed Storage in description.-
+-Rename Dildo t3 mex extractor into Goldan.-
+
+
+{[ALL SIDES]}
+      BUILDINGS:
+-T3 defenses damage vs t3 unit now is half of energy used.-
+-Particcle Accelerator + Resource Factory metal/energy cost increased +>10%.-
+
+       BUGS:
+-Remove Gadget Unit_resurrected, producing unknow lag?.-
+-Remove resurection halos widget.-
+-Fixed anti-ranges widget.-
+
+Planet Annihilation 3.7
+
+-Changes On Balancement;
+
+{[ARM]}
+       UNITS:
+-Janus damage vs commander increased by +>80%.-
+-Assault commander, Star commander and Supreme commander now builds Praetorian.-
+-ALL locked sea units now unlocked by default (T3 Triumph still locked).-
+-T3 cons now can build T3 bertha.-
+-Helldiver range decreased ->120.-
+-T3 Razorback speed decreased ->20%, metalcost reduced ->1650.-
+
+         BUILDINGS:
+-Small shield can be upgraded to t2 shield requiring tech 2-
+-Removed t3 bertha and Praetorian from Hardened nano buildmenu.-
+-T3 aircraft plant unit positions, unlocked first, locked at the end.-
+
+{[CORE]}
+        UNITS:
+-Leveler damage vs commander increased by +>60%.-
+-Krally hp reduced by 30%.-
+-Assault commander, Star commander and Supreme commander now builds Monkeylord.-
+-ALL locked sea units now unlocked by default (T3 Tyrant still locked).-
+-T3 cons now can build T3 bertha.-
+-Menacer All-terrain spider long range cannon reduced ->900, area of effect increased +25%.-
+-Oust shield kbot range reduced ->100, resistance slighty increased +>10%, reloadpower increased.-
+
+         BUILDINGS:
+-Small shield can be upgraded to t2 shield requiring tech 2-
+-Removed t3 Inti and Praetorian from Hardened nano buildmenu.-
+-T3 aircraft plant unit positions, unlocked first, locked at the end.-
+
+{[TLL]}
+       UNITS:
+-Pacifier damage vs commander increased by +>70%.-
+-Add a small radar distance that can be set on/off for Tracker and Rooks (500 range using 50 energy).-
+-Fix rooks capturer no longer assisting labs.-
+-Serasa T3 Ultimate all-terrain now crushes fortification walls.-
+-Remake Tesla Tank wreckage to its normal size.-
+-Assault commander now builds irritator.-
+-Remove on/off state from Dictator.-
+
+       BUILDINGS:
+-Overcharged metal extractor energy cost increased +> 3500, metalcost reduced ->100, metal output balanced to arm/core counterparts-
+-Hydra Range reduced ->350, Damage reduced ->100%, energy shot reduced ->12%.-
+-Super Heavy Elementary Reactor energy produce increased +>500, energy use increased +>750, metal produce increased +>9.-
+-Resize t3 dragons breath AA.-
+
+{[ALL SIDES]}
+
+      UNITS:
+-All Commanders same speed as normal commanders.-
+-Air combomb no longer makes full damage.-
+-Jump speed in commanders reduced by 70%.-
+-T3 vehicle AA Firespeed increased x2, speed increased +20%.-
+-All sltealthy cloacked units now cloacked on and holdfire by default.-
+-T1 bomber reloadtime increased fix to 12sec.-
+-T2 bomber reloadtime increased fix to 12 sec, better bomber drop separation (less dps in 1 area).-
+-Fast bombers reloadtime increased fix to 12 sec-.
+-Liche atomic bomber reloadtime increased fix to 15 sec, unlocked by default.-
+-Blade unlocked by default.-
+-Krow unlocked by default.-
+
+            
+      BUILDINGS:
+-Particle accelerator + Resource factorys metalcost and energycost increased +>10%, buildtime decreased ->10%.-
+-T2 shields give bigger resistance vs t3 berthas by 66%.-
+-Bullets rebouncing in shields now reduced by 80%.-
+-T1&T2 shields starting power at 50%, reloadpower reduced, resistance increased.-
+-T3 shields starting power at 25%, reloadpower increased, resistance reduced.-
+-Anti-tactical nuke no longer uses metal for loading, reloadfiring reduced ->3 seconds.-
+-Add atack commands on anti t3 defenses, now they can hold fire if needed.-
+-T3 AA and Long Range AA missiles will burst when reachs max range.-
+-Long Range Cannons, All extra damage against experimental land and ships category removed, now is on default,
+that includes, rapidfire cannons, t1-t2-t3 berthas, behemoths and longrange rapidfire cannons.-
+-All advanced fusions storage max energy up to x2 energy makes, remove energy storage in description.-
+
+
+      BUGS:
+-Fix tll advanced windtrap not producing correct energy.-
+-Fix T4 nuke being stoped by non t4 antinukes, no longer explodes hitting an air friendly.-
+-Fix all antinukes no longer doing damage when explode in land.-
+-Fixing missing Explosion CEGS.-
+
+
+{[WIDGETS]}
+
+-Unlocked by 7 moho instead Particle accelerator unlocked, Particle&Resource Unlocked/Lost.-
+-Fix anti-ranges widget, no longer crashing.-
+-Add changelog list in game screen.-
+-Updated PA marks.-
+-Updated defense range.-
+-Update stockpile, now auto stockpiles up to 5 missiles.-
+-Update halos when resurrected units.-
+-Updated bloom shader.-
+-Updated unit dont breack cloack.-
+-Updated Darken map.-
+-Updated map draw blocker (auto cleanmapmarks).-
+-Update LOS view.-
+-Clean-up useless widgets.
+
+
+Planet Annihilation 3.6
+
+-Changes On Balancement;
+
+{[ARM]}
+         UNITS:
+-Renamed t1,5 amphibious transport from Drillerfly into Dragonfly.-
+-Dragonfly HP increased by 70%-
+-Phoenix HP increased by 40%.-
+-Small Vanguard morph to T3 Vanguard metal cost increased to 12200, Energy cost increased to 120000.-
+-Ecoing Commander energy produce increased +>100, metal produce increased +>1.9, replaced normal mex to overcharged mex.-
+-Battle Commander HP reduced ->1000.-
+-Assault Commander HP reduced ->1000, builds nano lvl 2.-
+-Star Commander no longer builds Hardened Nano, replaced for nano lvl 3.-
+-Supremme Commander no longer builds Hardened Nano, replaced for nano lvl 4.-
+-New t3 vehicle constructor built by t3 vehicle factory.-
+-T3 vehicle cons can build; Super fusion, Super shield, T3 AA, Hardened Nano, Advanced T3 metal storage and Anti t3 experimental cannon.-
+-New T3 vehicle heavy AA (Ralius).-
+
+       BUILDINGS:
+-Hardened moho metalmaker revert cost ->1200 metal, decrease energy cost -> 50000.-
+-New Super Fusion between Advanced Fusion and Mega fusion.-
+-Hardened nano no longer builds Super shield and t3 AA.-
+
+
+{[CORE]}
+        UNITS:
+-Falcon HP increased by 70%-
+-Hurricane HP increased by 40%.-
+-Small Catapult morph to T3 Catapult metal cost increased to 13000, Energy cost increased to 100000.-
+-T3 Karganeths metal cost reduced ->2200, speed reduced by 10%.-
+-Ecoing Commander energy produce increased +>100, metal produce increased +>1.9, replaced normal mex to overcharged mex.-
+-Battle Commander HP reduced ->1000.-
+-Rename Combat Commander into Assault Commander.-
+-Assault Commander HP reduced ->1000, builds nano lvl 2.-
+-Star Commander no longer builds Hardened Nano, replaced for nano lvl 3.-
+-Supreme Commander no longer builds Hardened Nano, replaced for nano lvl 4.-
+-New t3 vehicle constructor built by t3 vehicle factory.-
+-T3 vehicle cons can build; Super fusion, Super shield, T3 AA, Hardened Nano, Advanced T3 metal storage and Anti t3 experimental cannon.-
+-New T3 vehicle heavy AA (Longbow).-
+
+        BUILDINGS:
+-New Super Fusion between Advanced Fusion and Mega fusion.-
+-Behemoth Reduced Explosion when it deads, now explodes like a normal fusion, Damage reduced 10%.-
+-Long Range Behemoth Reduced Explosion when it deads, now explodes like a normal fusion, Damage reduced 15%.-
+-Hardened nano no longer builds Super shield and t3 AA.-
+
+
+{[TLL]}
+       UNITS:
+-Zergon HP increased by 50%, speed increased by 10%-
+-Ghost HP increased by 110%-
+-Rooks capture kbot max hp reduced to 1200, Capture power reduced by 25%, unlocked by default.-
+-Fireraiser rocko kbot damage increased +>30%, damage vs commanders increased +>50%, range increased +>20.-
+-Sling all-terrain missile tortoise damage reduced ->200, range reduced ->50, damage vs commanders reduced ->100.-
+-Construction Tortoise now builds tortoise lab, also builds overchaged mex.-
+-Tortoise lab renamed from produce kbots to produce tortoises.-
+-Standard Commander HP reduced ->500.-
+-Battle Commander HP reduced ->500, Energy make increased +>70, metal make increased +>1.25-
+-Assault Commander HP reduced ->1000, builds nano lvl 2-.
+-Star Commander builds nano lvl 3.-
+-Supremme Commander builds nano lvl 3.-
+-New t1,5 vehicle amphibious unit built by t1 vehicle lab (Calisto).-
+-Calisto builds: Advanced Solar, Advanced Wind Generator, Unlocked Overcharged mex, metal maker, metal storage, energy storage, 
+Light fusion plant, nanotower, Heavy laser tower, Happlic, advanced Tidal generator, Floating Heavy laser tower, Sam AA and torpedo launcher.-
+-T3 vehicle cons now builds Anti t3 experimental cannon and New Building Dictator.-
+-New T3 vehicle heavy AA (Roland).-
+-New T3 all-terrain assault kbot (Serasa).-
+
+          BUILDINGS:
+-Omega cannon damage reduced by 50%, damage vs commanders reduced by 120%.-
+-New light fusion plant- 
+-Removed morph from t1 mex to t2 moho mex.-
+-Moho mex metal cost increased +>140, energycost increased +>2100, now produces same metal as core and arm counterparts-
+-Super Dark Matter Converter unlocked now by Supreme Commander-
+-New Rapid-Fire Long Range plasma Cannon (Hydra) built by all t2 constructors.-
+-New Advanced Wind Generator.-
+-New t3 Cannon (Dictator).-
+-L.R.P.C now morphs into Dictator.-
+
+{[ALL SIDES]}
+      UNITS:
+-T1 Air constructors now builds overcharged mex.-
+-Assault commanders no longer jumps, they still able to build jump jet.-
+-Removed Anti t3 experimental cannons from t2 constructions buildmenu.-
+-The King now can pass over fortification walls, Waterdeepth increased by 1000%, now it can submerge on water.-
+-The King add self destruct count down to 20 seconds, self destruct area of effect increased +>80%, damage increased x>9,
+speed decreased ->10%.-
+-The King now on Experimental land armor category.-
+
+      BUILDINGS:
+-New extreme laser towers are now unlocked by default.-
+-All small geos morph to t1 geos time reduced ->50 sec.-
+-Moho metal makers metal cost reduced by 25%-
+-Overcharged mex built on t1 cons now requires only 50 seconds to t2.-
+-Overcharged mex built by t1,5 cons now requires only 80 seconds to t2.-
+-T2 mex build by the unlocked overcharged mex morphing to t3 now fixed to 240 seconds.-
+-T2 mex build by t2 cons morphing to t3 now fixed to 360 seconds.-
+-Resource Factorys now requires 7 moho mex, in balance with tll particle accelerator.-
+-Anti Experimental T3 cannons unlocked by default.-
+-Anti-tactical Cover area reduced by 30%.-
+
+
+-BUG FIX;
+-Metron fix size not allowing to leave factory.-
+-Increase pathing for all vehicles by 15%, now they can run over hills further.-
+-Hero self destruct no longer kills commanders.-
+-Fix t3 AA no longer shooting heros.-
+-Fix a bug with tll adv solar.-
+
+
+
+Planet Annihilation 3.4
+
+New Laser Towers for Arm and TLL added (Unlocked by t2 tech center, and assault commander in TLL)
+
+New Cannons for ARM and TLL added (Unlocked by t2 tech center, and assault commander in TLL)
+
+Psycopath Extreme Laser Increased Buildtime by 10% (Unlocked by t2 tech center)
+
+Antitactical nukes removed from engineers and added on t2 con buildmenu
+
+New Capturer T2 for TLL unlocked by Assault Commander
+
+Eclipse speed reduced by 15%, Damage reduced by 60%
+
+Orions speed reduced by 30%,Damage reduced by 20%
+
+Renamed Banthaar instead Heavy Assault Mech to Heavy Tough Mech
+
+T-90 Main Weapon Damage increased x2, Secondary Weapond damage increased by 50%
+
+TLL Pop Up heavy laser buildtime increased by 180%. Now balanced to ARM and CORE counterparts.
+
+Metron Speed Raised by 60%, HP twiced
+
+Tigre Speed increased by 40% HP increased by 10%
+
+Rex speed increased by 40% HP increased by 10%
+
+T1 tll Bomber, bomb damage increased by 15%, Damage vs commanders increased by 180%
+
+T2 radar sonar speed raised by 60%, HP increased by 120%
+
+King Hand Cannon Weapond Range increased x2, speed reduced by 20%
+
+Super Dark Matter Converter HP increased +25.000 Buildtime Decreased by 25%, now requires Star Commander
+
+Particle Accelerator now unlockable with 7 TLL moho mex
+
+Morphs from Star to Supreme commanders now 300 seconds instead 180
+
+Morphs from overcharged mexes to t2 prices now fixed, to t3 prices also fixed.
+
+Core Hardened Metal Maker now converts 12m 1000 energy instead 14,6m 1000 energy
+
+ARM Hardened Metal Maker now converts 10m 1000 energy instead 13m 1000 energy, Metal cost raised 20%
+
+Lunatic Renamed to Anti-Defense instead Anti/Porc.
+
+T3 vehicles/kbots and Air Labs HP raised x2.
+
+T3 kbot labs, Metal/energy increased by 30%
+
+Rezzers Repair Speed reduced by 70%
+
+
+New Stuff like T3 AA and more coming soon.
+
