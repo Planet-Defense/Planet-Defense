@@ -103,7 +103,7 @@ local options = {
     name   = 'Undeformable map',
     desc   = 'Prevents the map shape from being changed by weapons\nAutoHost Usage :- DisableMapDamage',
     type   = 'bool',
-    def    = false,
+    def    = true,
     section= "pa_others",
   },
 --[[

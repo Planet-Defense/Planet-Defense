@@ -1,5 +1,18 @@
    Welcome to PD
    
+Planet Defense 3.9
+
+-Changes on Balancement;
+
+1. -Queentime standalone at 70 minutes
+2. -Replaced lvl 1 to lvl 4
+3. -Added new enthusiast level (lvl 5) hardest one
+4. -Mapdamage set default on off
+5. -Grace period default 360 seconds
+6. -New defenses Upgraded
+7. -AI coms now can morph when rezzed
+8. -Commander special upgraded less xp than supreme commanders
+   
 Planet Defense 2.03
 
 -Changes on Balancement;
@@ -15,7 +28,7 @@ Planet Defense 2.03
 8. -Queentime default 90 minutes
 9. -Increased Grace period up to 360 seconds, default 120 seconds.
 
-Planet Defense 2.01
+Planet Defense 2.02
 
 -Changes on Balancement;
 
@@ -28,7 +41,87 @@ Planet Defense 2.01
 -Levels are now 0-1-2-3-4-5. greater the level greater the difficult (last one is for chickens only).
 
 
-Welcome to PA
+Welcome to PA 
+
+Planet Annihilation 3.9
+
+-Changes On Balancement;
+
+{[ARM]}
+       UNITS:
+-Janus hp decreased ->12%.-
+-Rotveiler hp increased +>40%, renamed to Medium Tough Combat Riot Tank.-
+-Gladius range increased +>120, damage increased +>25%.-
+-Merl rocket tank range increased +>30%, damage increased +>90%, area of effect increased +>20%,-
+Special damage versus heavy defense.-
+-Penetrator range increased +>100.-
+-MegaRazorback no longer all-terrain.-
+
+         BUILDINGS:
+-Advanced Fusion Reactor Buildtime Increased +>70%.-
+-Mega Fusion Reactor energy output increased +>50%.-
+-Nebraska size reduced 1/2.-
+-EMP stockpile time increased +>70%, energy per shot increased +>90%.-
+
+
+{[CORE]}
+        UNITS:
+-Leveler hp decreased ->30%.-
+-Diplomat rocket tank range increased +>30%, damage increased +>80%, aoe increased +>10%,-
+Special damage versus heavy defense.-
+-Oust mobile shield loading speed reduced ->60%.-
+-Dominator range increased +>20%.-
+-Mammouth rocket tank metalcost increased +>30%, energycost increased +>70%.-
+
+
+         BUILDINGS:
+-Advanced Fusion Buildtime Increased +>50%.-
+-Mega Fusion Reactor energy output increased +>50%.-
+-Boucher size reduced 1/2.-
+-Geo 3 energy cost reduced ->40%.-
+-Airstrike Resistant fusion Buildtime increased +>50%.-
+
+{[TLL]}
+       UNITS:
+-Pacifier hp decreased ->20%.-
+-Roaster damage per shot decreased ->40%.
+-Convincer rocket tank range increased +>30%, damage increased +>90%, area of effect increased +>20%,-
+Special damage versus heavy defense.-
+-Rlik range increased +>20%.-
+-T90 metalcost increased +>10%, Energycost increased +>25%.-
+
+       BUILDINGS:
+-Super Dark Matter Converter metalcost increased +>50.000, Buildtime increased +>30%.-
+-Heavy Elementary Reactor Buildtime increased +>100%.-
+-EMP stockpile time increased +>70%, energy per shot increased +>90%.-
+-Advanced wind generator metalcost reduced ->40%, energy cost reduced ->60%.-
+-Geo energy cost reduced ->50%, metalcost increased +>5%.-
+-Geo 3 energy cost reduced ->40%.-
+-Barret Metal per shot reduced ->70%.-, energy per shot increased +>50%-
+-Bunker Extreme Laser Tower metalcost reduced ->40%.-
+-Overcharged mex energy use same as core&arm.-
+
+{[ALL SIDES]}
+
+      UNITS:
+-T2 flak mobile AA speed increased +>25%.-
+-T2 Kbot mobile AA speed increased +>25%.-
+-T2 engineers now can build overcharged mex.-
+            
+      BUILDINGS:
+-Super geos to TSAR morphtime reduced ->50%.-
+-Resource factory's& Particle accelerator now requires 8 moho mexes, energycost reduced ->40%, Buildtime increased +>20%.-
+-T2 shield's shieldresistance reduced ->30%, loading speed decreased ->20%.-
+-T3 shield's shieldresistance reduced ->20%.-
+-Anti T3/4 cannons range increased +>25%, LOS increaed +30%.-
+-Morph overcharged to t2 energy&metal cost increased +>100%.-
+-t1 mexes no longer uses energy.-
+
+{[BUGS]}
+-Fixed Tll Dark Matter Cannon colliding eachother when building too close.-
+
+{[WIDGETS]}
+-Removed team platter (unused).-
 
 Planet Annihilation 3.8
 

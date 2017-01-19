@@ -57,7 +57,7 @@ local morphDefs = {
 		time = 30,
 		metal = 0,
 		energy = 0,
-		xp = 5.00,
+		xp = 1.50,
 	},
 	},
       armcom1 = {
@@ -115,7 +115,7 @@ local morphDefs = {
 		time = 30,
 		metal = 0,
 		energy = 0,
-		xp = 3.00,
+		xp = 0.80,
 	},
 	},
       corcom1 = {
@@ -167,7 +167,7 @@ local morphDefs = {
 		time = 30,
 		metal = 0,
 		energy = 0,
-		xp = 4.00,
+		xp = 1.00,
 	},
     },
       tllcom3 = {
@@ -182,9 +182,19 @@ local morphDefs = {
 		into = 'tllcom7',
 		time = 300,
 	},
+      tllcome = {
+		into = 'armcomm',
+		time = 60,
+	},
+      armcomm = {
+		into = 'corcomh',
+		time = 360,
+	},
       armmex2 = {
 		into = 'armmoho1',
         time = 50,
+        metal = 548,
+		energy = 3612,
         tech = 1,
 	},
       armmoho1 = {
@@ -195,6 +205,8 @@ local morphDefs = {
       cormex2 = {
 		into = 'cormoho1',
 		time = 50,
+		metal = 570,
+		energy = 4614,
 		tech = 1,
 	},
       cormoho1 = {
@@ -205,6 +217,8 @@ local morphDefs = {
       tllmex2 = {
 		into = 'tllamex1',
         time = 50,
+        metal = 708,
+		energy = 9434,
 		tech = 1,
 	},
       tllamex1 = {
@@ -215,6 +229,8 @@ local morphDefs = {
       armmex1 = {
 		into = 'armmoho',
         time = 80,
+		metal = 548,
+		energy = 3612,
         tech = 1,
 	},
       armmoho = {
@@ -225,6 +241,8 @@ local morphDefs = {
       cormex1 = {
 		into = 'cormoho',
 		time = 80,
+		metal = 570,
+		energy = 4614,
 		tech = 1,
 	},
       cormoho = {
@@ -235,6 +253,8 @@ local morphDefs = {
       tllmex1 = {
 		into = 'tllamex',
         time = 80,
+        metal = 708,
+		energy = 9434,
 		tech = 1,
 	},
       tllamex = {
@@ -242,6 +262,36 @@ local morphDefs = {
         time = 360,
  		tech = 2,
     },
+      corboucher1 = {
+		into = 'corboucher',
+		time = 120,
+		xp = 1.50,
+	},
+      corboucher = {
+		into = 'corboucher2',
+		time = 120,
+		xp = 4.00,
+	},
+      tlldmc1 = {
+		into = 'tlldmc',
+		time = 120,
+		xp = 1.5,
+	},
+      tlldmc = {
+		into = 'tlldmc2',
+		time = 120,
+		xp = 4.00,
+	},
+      nebraska1 = {
+		into = 'nebraska',
+		time = 120,
+		xp = 1.50,
+    },
+      nebraska = {
+		into = 'nebraska2',
+		time = 120,
+		xp = 4.00,
+    },   
       corrl = {
 		into = 'corrl1',
 		time = 10,

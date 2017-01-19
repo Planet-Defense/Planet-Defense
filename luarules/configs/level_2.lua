@@ -23,7 +23,7 @@ minBaseDistance      = 600
 maxBaseDistance      = 7200
 chickensPerPlayer    = 40
 spawnChance          = 1.0
-bonusTurret          = "armrl" -- Turret that gets spawned when a burrow dies
+bonusTurret          = "tlldb" -- Turret that gets spawned when a burrow dies
 angerBonus           = 0.25
 expStep              = 0.0625
 lobberEMPTime        = 4
@@ -190,50 +190,50 @@ local defenders = {
   tlldb = true,
 }
 --First weak wave
-addWave(1,{"5 armflea", "5 armflea", "2 armstump", "5 armflash", "1 armfark", "2 armaak"})
-addWave(1,{"5 armflea", "1 armfark", "4 corthud", "5 armflea", "2 armpw", "3 corak"})
+addWave(1,{"1 bladew", "1 bladew", "1 armfark", "1 corack", "10 corpyro", "3 corcrash"})
+addWave(1,{"1 bladew", "1 bladew", "1 armack", "1 tllack", "10 armfast", "3 corcrash"})
 
 --t1 only
 newWaveSquad[2] =
-addWave(2,{"5 armflea", "1 armack", "2 armstump", "5 armflash", "1 armfark", "2 armaak"})
-addWave(2,{"1 tllack", "1 corack", "4 corthud", "5 armstump", "2 armjanus1", "3 armaak"})
+addWave(2,{"5 armblz", "1 armack", "5 armblz", "5 armblz", "5 airwolf3g", "1 tawf114"})
+addWave(2,{"1 tllack", "1 corack", "5 armblz", "5 armblz", "5 airwolf3g", "1 tawf114"})
 
 --t1/t1.5
 newWaveSquad[3] =
-addWave(3,{"5 armflea", "5 armstump", "2 armstump", "8 armflash", "1 armfark", "1 roland"})
-addWave(3,{"5 armstump", "1 armfark", "4 corthud", "5 armstump", "4 armfboy", "1 roland"})
+addWave(3,{"5 bladew", "5 armstump", "5 bladew", "5 armflash", "5 corhurc", "1 roland"})
+addWave(3,{"5 bladew", "5 armstump", "5 bladew", "5 armflash", "5 corhurc", "1 roland"})
 
 --t1.5 
 newWaveSquad[4] = 
-addWave(4,{"10 bladew1", "1 corack", "4 tllcoyote", "5 armflash1", "4 armflash1", "1 corthud"})
-addWave(4,{"10 bladew1", "5 armflash1", "3 armflash1", "1 armack", "1 tllack", "5 armshock1"})
+addWave(4,{"10 cormort", "5 armspid", "4 tllcoyote", "5 armstump", "2 armsonic", "1 aexxec"})
+addWave(4,{"10 cormort", "5 armspid", "4 armbull", "5 armstump", "2 tllcrawlb", "1 armmart"})
 
 
 --t1.5/t2
 newWaveSquad[5] =
-addWave(5,{"1 corsumo", "1 wplatform", "3 armsnipe", "1 corhrk1", "1 tllcome", "3 tllcoyote", "5 corsumo", "1 armaak"})
-addWave(5,{"1 cormonsta", "1 armraz", "3 armsnipe", "5 corgol", "5 armbull", "1 tllcome", "1 corhrk1"})
+addWave(5,{"5 armbull", "5 armbull", "3 armsnipe", "1 corhrk1", "1 cormonsta", "5 corprot", "5 corsumo", "2 roland"})
+addWave(5,{"5 tllcoyote", "5 tllcoyote", "3 armsnipe", "5 corprot", "5 armbull", "1 cormonsta", "1 corhrk1"})
 
 
 --t2 --wip beyond
 newWaveSquad[6] =
-addWave(6,{"1 mammouth", "1 krogtaar", "1 armspy1", "1 requ2", "3 corprot", "5 cormddm", "2 roland"})
-addWave(6,{"1 wplatform", "2 corkarg", "1 armspy1", "3 requ3", "3 armsnipe", "2 cortotal", "1 corhrk1"})
+addWave(6,{"1 mammouth", "5 corkarg", "1 corsumo1", "3 armraz", "3 corprot", "5 cormddm", "2 roland"})
+addWave(6,{"1 wplatform", "5 corkarg", "1 corsumo1", "3 armraz", "4 armsnipe", "4 cortotal", "1 corhrk1"})
 
 
 newWaveSquad[7] =
-addWave(7,{"2 tllcome", "1 krogtaar", "2 requ3", "2 corcrw", "1 corhrk1", "5 roland", "1 armbanthaar"})
-addWave(7,{"2 tllcome",  "5 airwolf3g", "1 requ2", "1 corhrk1", "1 roland", "1 armbanth", "1 krogtaar", "4 armorion"})
+addWave(7,{"1 tllcome", "1 krogtaar", "1 arm_furie", "1 irritator", "1 corhrk1", "5 roland", "1 armcrabe"})
+addWave(7,{"1 tllcome",  "5 airwolf3g", "1 arm_furie", "1 corhrk1", "5 roland", "1 armcrabe", "1 armcrabe", "4 armorion"})
 
 
 newWaveSquad[8] =
-addWave(8,{"2 corcomh", "1 armbanthaar", "1 mammouth", "1 corhrk1", "2 corkarg", "5 armsnipe", "2 airwolf3g", "2 roland"})
-addWave(8,{"2 corcomh", "1 armbanthaar", "2 requ3", "1 corhrk1", "2 armbanth", "5 armshock", "1 corkrog", "2 corcrw"})
+addWave(8,{"1 corkrog", "1 corkarg1", "2 corprot", "1 corhrk1", "5 corkarg", "5 armsnipe", "2 airwolf3g", "2 roland"})
+addWave(8,{"1 armcomm", "1 corkarg1", "2 requ3", "1 corhrk1", "5 armbanth", "5 armshock", "1 corkrog", "3 corcrw"})
 
 
 newWaveSquad[9] =
 addWave(9,{"2 requ3", "1 hyperion", "5 corcrw", "5 corkarg", "2 mammouth", "2 roland"})
-addWave(9,{"3 armraven", "1 hyperion", "2 requ2", "7 roland", "1 hyperion", "1 corcomh"})
+addWave(9,{"5 armraven", "1 hyperion", "2 requ2", "7 roland", "1 hyperion", "1 corcomh"})
 
 
 newWaveSquad[10] =
@@ -305,7 +305,6 @@ difficulties = {
     spawnChance       = 1.00,
     damageMod         = 1.00,
   },
-
   
   [CUSTOM] = {
     chickenSpawnRate  = tonumber(Spring.GetModOptions().mo_custom_chickenspawn),
