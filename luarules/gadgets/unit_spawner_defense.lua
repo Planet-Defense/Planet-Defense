@@ -142,6 +142,8 @@ elseif (mo_level == 3) then
 elseif (mo_level == 4) then
     CONFIG_FILE  = "LuaRules/Configs/level_4.lua"
 elseif (mo_level == 5) then
+    CONFIG_FILE  = "LuaRules/Configs/level_5.lua"
+elseif (mo_level == 6) then
     CONFIG_FILE  = "LuaRules/Configs/spawn_defs_chickens.lua"
     cenabled = true
 end
@@ -258,7 +260,7 @@ local function SetGlobals(difficulty)
   gadget.difficulties = nil
 end
 
-SetGlobals(luaAI or "Normal") -- set difficulty
+SetGlobals(luaAI or "1-4 Players") -- set difficulty
 
 if (queenName == "asc") then
 	queenName = "ve_chickenq"
@@ -268,7 +270,7 @@ end
 local expIncrement = ((SetCount(humanTeams) * expStep) / queenTime)
 if expStep < 0 then expIncrement = ((expStep * -1) / queenTime) end
 local nextWave = ((queenTime / 12) / 60)
-local gracePenalty = math.max(math.floor(((gracePeriod - 270) / burrowSpawnRate) + 0.5), 0)
+local gracePenalty = math.max(math.floor(((gracePeriod - 270) / burrowSpawnRate) + 1), 0)
 chickensPerPlayer = (chickensPerPlayer * SetCount(humanTeams))
 maxBurrows = maxBurrows + math.floor(SetCount(humanTeams) * 0.0)
 queenTime = (queenTime + gracePeriod)
@@ -296,7 +298,7 @@ local unitCounts = {}
 
 local chickenDefTypes = {}
 for unitName in pairs(chickenTypes) do
-  Spring.Echo( "unitname := ".. unitName )
+  Spring.Echo("unitname := ".. unitName)
   chickenDefTypes[UnitDefNames[unitName].id] = unitName
   if cenabled then
     unitCounts[string.sub(unitName,1,-2)] = {count = 0, lastCount = 0}
@@ -320,7 +322,6 @@ SetGameRulesParam("queenLife",        queenLifePercent)
 SetGameRulesParam("queenAnger",       queenAnger)
 SetGameRulesParam("gracePeriod",      gracePeriod)
 SetGameRulesParam("chickenSpawnRate", chickenSpawnRate)
-
 
 for unitName in pairs(chickenTypes) do
   if cenabled then
@@ -355,9 +356,9 @@ local function UpdateUnitCount()
     if UnitDefs[unitDefID] then
       local shortName
        if not cenabled then
-       shortName = (UnitDefs[unitDefID].name)
+        shortName = (UnitDefs[unitDefID].name)
        else
-       shortName = string.match(UnitDefs[unitDefID].name,"%D*")
+        shortName = string.match(UnitDefs[unitDefID].name,"%D*")
        end
            -- Spring.Echo("unitDefID :=".. UnitDefs[unitDefID].name .."       shortname:="..shortName)
       if unitCounts[shortName] then
@@ -878,7 +879,7 @@ local function Wave()
       end
     end
   end
-  UpdateUnitCount()
+  -- UpdateUnitCount()
   return cCount
 end
 
