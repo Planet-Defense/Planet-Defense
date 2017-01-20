@@ -25,21 +25,25 @@ end
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
-local Spring          = Spring
-local GetGameSeconds  = Spring.GetGameSeconds
-local GetGameRulesParam = Spring.GetGameRulesParam
-local GetGameRulesParams = Spring.GetGameRulesParams
-local gl              = gl
-local widgetHandler   = widgetHandler
-local math            = math
-local table           = table
+local Spring              = Spring
+local GetGameSeconds      = Spring.GetGameSeconds
+local GetGameRulesParam   = Spring.GetGameRulesParam
+local GetGameRulesParams  = Spring.GetGameRulesParams
+local gl                  = gl
+local widgetHandler       = widgetHandler
+local math                = math
+local table               = table
 
-local displayList
-local spawnList
-local fontHandler     = loadstring(VFS.LoadFile(LUAUI_DIRNAME.."modfonts.lua", VFS.ZIP_FIRST))()
-local panelFont       = LUAUI_DIRNAME.."Fonts/FreeSansBold_14"
-local waveFont        = LUAUI_DIRNAME.."Fonts/Skrawl_40"
+local displayList       -- investigate me todo
+local dropdownCreepList
+local fontHandler       = loadstring(VFS.LoadFile(LUAUI_DIRNAME.."modfonts.lua", VFS.ZIP_FIRST))()
+local panelFont         = LUAUI_DIRNAME.."Fonts/FreeSansBold_14"
+local waveFont          = LUAUI_DIRNAME.."Fonts/Skrawl_40"
 local panelTexture
+local guiPanel          -- a displayList
+local spawnPanel        -- a displayList
+local updatePanel
+local updateSpawnPanel
 
 local viewSizeX, viewSizeY = 0,0
 local w               = 300
@@ -62,19 +66,15 @@ local enabled
 local gotScore
 local scoreCount	  = 0
 
-local guiPanel --// a displayList
-local spawnPanel --// a displayList
-local updatePanel
-local updateSpawnPanel
 local hasChickenEvent = false
 
 
 local side
 local aifaction
 local mo_level = tonumber(Spring.GetModOptions().mo_norobot)
-local cenabled = mo_level == 5
+local chicken_enabled = mo_level == 6
 
-if cenabled then
+if chicken_enabled then
   side = "Queen"
   aifaction = "Chicken's"
   panelTexture    = ":n:"..LUAUI_DIRNAME.."Images/panel.tga"
@@ -96,26 +96,28 @@ local difficulties = {
 }
 
 local waveColors = {}
-waveColors[1] = "\255\184\100\255"
-waveColors[2] = "\255\120\50\255"
-waveColors[3] = "\255\255\153\102"
-waveColors[4] = "\255\120\230\230"
-waveColors[5] = "\255\100\255\100"
-waveColors[6] = "\255\150\001\001"
-waveColors[7] = "\255\255\255\100"
-waveColors[8] = "\255\100\255\255"
-waveColors[9] = "\255\100\100\255"
-waveColors[10] = "\255\200\050\050"
-waveColors[11] = "\255\255\255\255"
-
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-
+waveColors[1] = "\255\255\220\255"
+waveColors[2] = "\255\184\100\255"
+waveColors[3] = "\255\120\50\255"
+waveColors[4] = "\255\255\153\102"
+waveColors[5] = "\255\120\230\230"
+waveColors[6] = "\255\100\255\100"
+waveColors[7] = "\255\150\001\001"
+waveColors[8] = "\255\255\255\100"
+waveColors[9] = "\255\100\255\255"
+waveColors[10] = "\255\100\100\255"
+waveColors[11] = "\255\200\050\050"
+waveColors[12] = "\255\255\255\255"
 
 fontHandler.UseFont(panelFont)
 local panelFontSize  = fontHandler.GetFontSize()
 fontHandler.UseFont(waveFont)
 local waveFontSize   = fontHandler.GetFontSize()
+
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
 
 function CommaValue(amount)
   local formatted = amount
@@ -163,7 +165,7 @@ end
 
 local function GetSquadCountTable(count_or_kills, sortByPower)
   local total = 0
-  local t = {}
+  local countTable = {}
   for ruleName, value in pairs(gameInfo) do
 
     if string.match(ruleName, count_or_kills) then
@@ -177,7 +179,7 @@ local function GetSquadCountTable(count_or_kills, sortByPower)
         local squadPower = squadDef.power * subTotal
         local squadName = squadDef.humanName
         local unitDefColor = GetUnitDefColor(squadDef)
-        table.insert(t, { unitDefColor .. subTotal .. " " .. squadName .. white, squadPower })
+        table.insert(countTable, { unitDefColor .. subTotal .. " " .. squadName .. white, squadPower })
         total = total + subTotal
       end
     end
@@ -185,7 +187,7 @@ local function GetSquadCountTable(count_or_kills, sortByPower)
 
   -- sort squads by cumulative power
   if sortByPower then
-    table.sort(t, function( a,b )
+    table.sort(countTable, function( a,b )
       if (a[2] < b[2]) then
         return false
       elseif (a[2] > b[2]) then
@@ -198,7 +200,7 @@ local function GetSquadCountTable(count_or_kills, sortByPower)
 
   -- strip power sums strings,power-table
   local tempTable = {}
-  for k, v in pairs(t) do
+  for k, v in pairs(countTable) do
     tempTable[k] = v[1]
   end
 
@@ -254,23 +256,23 @@ local function CreatePanelDisplayList()
   fontHandler.DisableCache()
   fontHandler.UseFont(panelFont)
   fontHandler.BindTexture()
-  local stageProgress = ""
+  local stageProgressText = ""
   if (currentTimeSeconds > gameInfo.gracePeriod and waveCount > 0) then
     if gameInfo.queenAnger < 100 then
       local secondsLeftWave = math.max(0, math.ceil(GetGameRulesParam('chickenSpawnRate') - (waveTimeSeconds and currentTimeSeconds - waveTimeSeconds or 0)))
-      stageProgress = side.." Anger: " .. gameInfo.queenAnger .. "% (wave "..(waveCount+1).." in "..secondsLeftWave.."s)"
+      stageProgressText = side.." Anger: " .. gameInfo.queenAnger .. "% (wave "..(waveCount+1).." in "..secondsLeftWave.."s)"
     else
-      stageProgress = side.." Health: " .. gameInfo.queenLife .. "%"
+      stageProgressText = side.." Health: " .. gameInfo.queenLife .. "%"
     end
   else
-    stageProgress = "Grace Period: " .. math.max(0, math.floor(gameInfo.gracePeriod - currentTimeSeconds))
+    stageProgressText = "Grace Period: " .. math.max(0, math.floor(gameInfo.gracePeriod - currentTimeSeconds))
   end
 
-  fontHandler.DrawStatic(white.. stageProgress, PanelRow(1))
+  fontHandler.DrawStatic(white.. stageProgressText, PanelRow(1))
   fontHandler.DrawStatic(white..gameInfo.unitCounts, PanelRow(2))
   fontHandler.DrawStatic(white..gameInfo.unitKills, PanelRow(3))
 
-  if cenabled then
+  if chicken_enabled then
     fontHandler.DrawStatic(white.."Burrows: "..gameInfo.roostCount, PanelRow(4))
     fontHandler.DrawStatic(white.."Burrow Kills: "..gameInfo.roostKills, PanelRow(5))
   else
@@ -318,11 +320,12 @@ local function DrawBlackAlphaBox(minX, minY, minZ, maxX, maxY, maxZ)
 end
 
 local function Draw()
-  currentTimeSeconds = GetGameSeconds()
 
-  if (not enabled)or(not gameInfo) then
+  if not enabled or not gameInfo then
     return
   end
+
+  currentTimeSeconds = GetGameSeconds()
 
   if (updatePanel) then
     if (guiPanel) then gl.DeleteList(guiPanel); guiPanel=nil end
@@ -389,14 +392,8 @@ function ChickenEvent(chickenEventArgs)
   if (chickenEventArgs.type == "wave") then
     waveTimeSeconds = currentTimeSeconds
     waveTimeTimer = Spring.GetTimer()
-    if cenabled then
-      if (gameInfo.roostCount < 1) then
+    if gameInfo.roostCount + gameInfo.rroostCount < 1 then
         return
-      end
-    else
-      if (gameInfo.rroostCount < 1) then
-        return
-      end
     end
     waveMessage    = {}
     waveCount      = waveCount + 1
@@ -424,7 +421,7 @@ function widget:Initialize()
     gl.TexRect(0, 0, w, h)
   end)
 
-  spawnList = gl.CreateList( function()
+  dropdownCreepList = gl.CreateList( function()
     gl.Color(0.5, 1, 1, 0)
     gl.Texture(panelTexture)
     gl.TexRect(0, 0, 100, 100)
@@ -433,7 +430,7 @@ function widget:Initialize()
   widgetHandler:RegisterGlobal("ChickenEvent", ChickenEvent)
 
   UpdateRules()
-   viewSizeX, viewSizeY = gl.GetViewSizes()
+  viewSizeX, viewSizeY = gl.GetViewSizes()
   local x = math.abs(math.floor(viewSizeX - 320))
   local y = math.abs(math.floor(viewSizeY - 300))
   UpdatePos(x, y)
