@@ -392,7 +392,7 @@ function ChickenEvent(chickenEventArgs)
   if (chickenEventArgs.type == "wave") then
     waveTimeSeconds = currentTimeSeconds
     waveTimeTimer = Spring.GetTimer()
-    if gameInfo.roostCount + gameInfo.rroostCount < 1 then
+    if gameInfo.roostCount or 0 + gameInfo.rroostCount or 0 < 1 then
         return
     end
     waveMessage    = {}
