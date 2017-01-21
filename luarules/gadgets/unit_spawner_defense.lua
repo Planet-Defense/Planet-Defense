@@ -879,7 +879,7 @@ local function Wave()
       end
     end
   end
-  -- UpdateUnitCount()
+  UpdateUnitCount()
   return cCount
 end
 

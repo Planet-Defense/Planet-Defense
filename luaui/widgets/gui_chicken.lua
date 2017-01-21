@@ -33,6 +33,7 @@ local gl                  = gl
 local widgetHandler       = widgetHandler
 local math                = math
 local table               = table
+local UnitDefNames        = UnitDefNames
 
 local displayList       -- investigate me todo
 local dropdownCreepList
@@ -71,8 +72,8 @@ local hasChickenEvent = false
 
 local side
 local aifaction
-local mo_level = tonumber(Spring.GetModOptions().mo_norobot)
-local chicken_enabled = mo_level == 6
+local mo_level = Spring.GetModOptions().mo_level
+local chicken_enabled = mo_level == '6'
 
 if chicken_enabled then
   side = "Queen"
@@ -146,9 +147,7 @@ local function ScaleRGBInt(RGBInt)
   return NewValue
 end
 
-local function GetUnitDefColor(unitDef)
-  local power = unitDef.power
-
+local function GetUnitPowerColor(power)
   local hardKingPower = UnitDefNames['h_chickenqr'] and UnitDefNames['h_chickenqr'].power or 6000
 
   local scaleFraction = math.log(hardKingPower/3)/255
@@ -178,7 +177,7 @@ local function GetSquadCountTable(count_or_kills, sortByPower)
       if subTotal and squadDef and subTotal > 0 and squadDef.name ~= "rroost" and squadDef.name ~= "roost" then
         local squadPower = squadDef.power * subTotal
         local squadName = squadDef.humanName
-        local unitDefColor = GetUnitDefColor(squadDef)
+        local unitDefColor = GetUnitPowerColor(squadPower)
         table.insert(countTable, { unitDefColor .. subTotal .. " " .. squadName .. white, squadPower })
         total = total + subTotal
       end
@@ -279,6 +278,8 @@ local function CreatePanelDisplayList()
     fontHandler.DrawStatic(white.."Burrows: "..gameInfo.rroostCount, PanelRow(4))
     fontHandler.DrawStatic(white.."Burrow Kills: "..gameInfo.rroostKills, PanelRow(5))
   end
+
+  fontHandler.DrawStatic(white.."Level: "..mo_level, PanelRow(6, 65))
 
   if gotScore then
     fontHandler.DrawStatic(white.."Your Score: "..CommaValue(scoreCount), 88, h-170)
@@ -392,7 +393,7 @@ function ChickenEvent(chickenEventArgs)
   if (chickenEventArgs.type == "wave") then
     waveTimeSeconds = currentTimeSeconds
     waveTimeTimer = Spring.GetTimer()
-    if gameInfo.roostCount or 0 + gameInfo.rroostCount or 0 < 1 then
+    if ((gameInfo.roostCount or 0) + (gameInfo.rroostCount or 0)) < 1 then
         return
     end
     waveMessage    = {}
