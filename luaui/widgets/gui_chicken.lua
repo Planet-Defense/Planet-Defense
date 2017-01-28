@@ -54,6 +54,9 @@ local y1              = - h - 50
 local panelMarginX    = 30
 local panelMarginY    = 40
 local panelSpacingY   = 7
+local squadPaddingY   = 12
+local squadPaddingX   = 10
+local squadSpacingY   = 1
 local waveSpacingY    = 7
 local moving
 local capture
@@ -72,16 +75,17 @@ local hasChickenEvent = false
 
 local side
 local aifaction
-local mo_level = Spring.GetModOptions().mo_level
-local chicken_enabled = mo_level == '6'
+local mo_level = tonumber(Spring.GetModOptions().mo_level)
+local chickenEnabled = mo_level == 6
 
-if chicken_enabled then
+
+if chickenEnabled then
   side = "Queen"
-  aifaction = "Chicken's"
+  aifaction = "Chicken"
   panelTexture    = ":n:"..LUAUI_DIRNAME.."Images/panel.tga"
 else
   side = "King"
-  aifaction = "Robot's"
+  aifaction = "Robot"
   panelTexture    = ":n:"..LUAUI_DIRNAME.."Images/panel.tga" -- todo make panel for robot mode
 end
 
@@ -120,7 +124,7 @@ local waveFontSize   = fontHandler.GetFontSize()
 --------------------------------------------------------------------------------
 
 
-function CommaValue(amount)
+local function CommaValue(amount)
   local formatted = amount
   while true do
     formatted, k = string.gsub(formatted, "^(-?%d+)(%d%d%d)", '%1,%2')
@@ -131,62 +135,73 @@ function CommaValue(amount)
   return formatted
 end
 
-local function ScaleRGBInt(RGBInt)
-  local OldMin = 0
-  local OldMax = 255
-  local OldRange = (OldMax - OldMin)
-  local NewMin = 20
-  local NewMax = 255
-  local NewValue
-  if (OldRange == 0) then
-      NewValue = (NewMin + NewMax) / 2
+local function LinearRGBScale(RGBInt, oldMin, oldMax)
+  local oldRange = (oldMax - oldMin)
+  local newMin = 40
+  local newMax = 90
+  local newValue
+  if (oldRange == 0) then
+    newValue = (newMin + newMax) / 2
   else
-      local NewRange = (NewMax - NewMin)
-      NewValue = (((RGBInt - OldMin) * NewRange) / OldRange) + NewMin
+    local newRange = (newMax - newMin)
+    newValue = (((RGBInt - oldMin) * newRange) / oldRange) + newMin
   end
-  return NewValue
+  return newValue
 end
 
-local function GetUnitPowerColor(power)
-  local hardKingPower = UnitDefNames['h_chickenqr'] and UnitDefNames['h_chickenqr'].power or 6000
+local function ColoredUnits(countTable)
+  local maxPower = -math.huge
+  local minPower = math.huge
 
-  local scaleFraction = math.log(hardKingPower/3)/255
+  for k,v in pairs( countTable ) do
+    if type(v[2]) == 'number' then
+      maxPower = math.max( maxPower, v[2] )
+      minPower = math.min( minPower, v[2] )
+    end
+  end
 
-  local red = math.min(255, math.max(0, math.ceil(math.log(power/3)/scaleFraction)))
-  local green = 255 - red
+  local powerFactor = 0.0003
+  local maxPowerLog = math.log(maxPower*powerFactor+1)
 
-  red = ScaleRGBInt(red)
-  green = ScaleRGBInt(green)
+  for i, unit in ipairs(countTable) do
+    local power = math.log(unit[2]*powerFactor+1)
+    power = LinearRGBScale(power, 0, maxPowerLog)
+    --    local green = maxRed - red
 
-  return string.char(255) .. string.char(red) .. string.char(green) .. string.char(50)
-
+    local red = 255*power/ 100
+    local green = 255 * (100 - power)/ 100
+      local blue = 60
+      unit[1] = string.char(255) .. string.char(red) .. string.char(green) .. string.char(blue) .. unit[1]..white
+  end
+  return countTable
 end
 
-local function GetSquadCountTable(count_or_kills, sortByPower)
+local function GetUnitsInfo(count_or_kills, sortByPower, char_length)
   local total = 0
-  local countTable = {}
+  local squads = {}
   for ruleName, value in pairs(gameInfo) do
 
     if string.match(ruleName, count_or_kills) then
       local unitName = ruleName:gsub(count_or_kills, "")
       local squadDef = UnitDefNames[unitName]
 
-      local subTotal = value
+      local squadTotal = value and tonumber(value) or 0
 
+      if chickenEnabled then
+        total = total + squadTotal
       -- skip empty squaddefs and burrows, subtotal, squaddef and squaddef.name should not be nil
-      if subTotal and squadDef and subTotal > 0 and squadDef.name ~= "rroost" and squadDef.name ~= "roost" then
-        local squadPower = squadDef.power * subTotal
+      elseif squadTotal and squadDef and squadTotal > 0 and squadDef.name ~= "rroost" and squadDef.name ~= "roost" then
+        local squadPower = squadDef.power * squadTotal
         local squadName = squadDef.humanName
-        local unitDefColor = GetUnitPowerColor(squadPower)
-        table.insert(countTable, { unitDefColor .. subTotal .. " " .. squadName .. white, squadPower })
-        total = total + subTotal
+        table.insert(squads, { squadTotal..' '..squadName, squadPower })
+        total = total + squadTotal
       end
     end
   end
 
   -- sort squads by cumulative power
   if sortByPower then
-    table.sort(countTable, function( a,b )
+    table.sort(squads, function( a,b )
       if (a[2] < b[2]) then
         return false
       elseif (a[2] > b[2]) then
@@ -197,27 +212,53 @@ local function GetSquadCountTable(count_or_kills, sortByPower)
     end)
   end
 
+  -- color squads by squad power
+  squads = ColoredUnits(squads)
+
   -- strip power sums strings,power-table
   local tempTable = {}
-  for k, v in pairs(countTable) do
+  for k, v in pairs(squads) do
     tempTable[k] = v[1]
   end
+  squads = nil
 
   return tempTable, total
 end
 
 local function ShortenColorString(str, length)
-  if #str+2 > length then
-    local substring = string.sub(str, 0, length)
-    -- strip color bytes in ending
-    str = string.match(substring, "(.*%w)")..white..'...'
+  if #str:gsub('%W','')+2 > length then
+    local substring = str:sub(0, length-2)
+
+    local brokenCommaColor = substring:find('\44\255', -10)
+    local brokenWhite = substring:find('\255', -3)
+    if brokenCommaColor then
+      substring = str:sub(0, brokenCommaColor-1)
+    elseif brokenWhite then
+      for i = #substring- brokenWhite, 0, -1 do
+        substring = substring..string.char(255)
+      end
+    else
+      -- cut off , character
+      substring = substring:gsub(',$','')
+    end
+
+    str = substring..white..'...'
   end
   return str
 end
 
-local function MakeCountString(type, showbreakdown)
+local function InfoTextRow(type, showbreakdown)
 
-  local t, total = GetSquadCountTable(type, true)
+  local t, total = GetUnitsInfo(type, true)
+
+  local text
+  if type == 'Count' then
+    text = aifaction..'s: '
+  else
+    text = aifaction..'\'s Kills: '
+  end
+
+  text = text..total
 
   if showbreakdown then
     -- join squad strings
@@ -225,10 +266,10 @@ local function MakeCountString(type, showbreakdown)
     local squadsShort = ShortenColorString(csvColorSquads, 22)
 
     local squadsString = total > 0 and '('..squadsShort..')' or ''
-    return aifaction..': '..total..' '.. squadsString
-  else
-    return (aifaction.." Kills: " .. white .. total)
+    text = text..' '..squadsString
   end
+
+  return text
 end
 
 local function UpdatePos(x, y)
@@ -237,11 +278,13 @@ local function UpdatePos(x, y)
   updatePanel = true
 end
 
-
 local function PanelRow(n, indent)
   return panelMarginX + (indent and indent or 0), h-panelMarginY-(n-1)*(panelFontSize+panelSpacingY)
 end
 
+local function SquadRow(n)
+  return panelMarginX, h-panelMarginY-(n-1)*(panelFontSize+squadSpacingY)
+end
 
 local function WaveRow(n)
   return n*(waveFontSize+waveSpacingY)
@@ -271,7 +314,7 @@ local function CreatePanelDisplayList()
   fontHandler.DrawStatic(white..gameInfo.unitCounts, PanelRow(2))
   fontHandler.DrawStatic(white..gameInfo.unitKills, PanelRow(3))
 
-  if chicken_enabled then
+  if chickenEnabled then
     fontHandler.DrawStatic(white.."Burrows: "..gameInfo.roostCount, PanelRow(4))
     fontHandler.DrawStatic(white.."Burrow Kills: "..gameInfo.roostKills, PanelRow(5))
   else
@@ -279,7 +322,9 @@ local function CreatePanelDisplayList()
     fontHandler.DrawStatic(white.."Burrow Kills: "..gameInfo.rroostKills, PanelRow(5))
   end
 
-  fontHandler.DrawStatic(white.."Level: "..mo_level, PanelRow(6, 65))
+  if mo_level then
+    fontHandler.DrawStatic(white.."Level: "..mo_level, PanelRow(6, 65))
+  end
 
   if gotScore then
     fontHandler.DrawStatic(white.."Your Score: "..CommaValue(scoreCount), 88, h-170)
@@ -372,18 +417,28 @@ local function UpdateRules()
   if (not gameInfo) then
     gameInfo = {}
   end
-  for ruleNumber, ruleTable in pairs(GetGameRulesParams()) do
-    if type(ruleTable) == 'table' then
-      for name, value in pairs(ruleTable) do
+  local rulesParams = GetGameRulesParams()
+  for ruleKey, ruleValue in pairs(rulesParams) do
+    -- PD ?
+    if type(ruleValue) == 'table' then
+      for name, value in pairs(ruleValue) do
         if value ~= nil then
           gameInfo[name] = value
         end
       end
+      -- RD ?
+    elseif type(ruleKey) == 'string' and type(ruleValue) == 'number' then
+      if ruleValue ~= nil then
+        if string.find(ruleKey, '(Count|Kills)') then
+--          Spring.Echo(ruleKey..ruleValue)
+        end
+        gameInfo[ruleKey] = ruleValue
+      end
     end
   end
 
-  gameInfo.unitCounts = MakeCountString("Count", true)
-  gameInfo.unitKills  = MakeCountString("Kills", false)
+  gameInfo.unitCounts = InfoTextRow("Count", not chickenEnabled)
+  gameInfo.unitKills  = InfoTextRow("Kills", false)
 
   updatePanel = true
 end
@@ -393,8 +448,9 @@ function ChickenEvent(chickenEventArgs)
   if (chickenEventArgs.type == "wave") then
     waveTimeSeconds = currentTimeSeconds
     waveTimeTimer = Spring.GetTimer()
+    UpdateRules()
     if ((gameInfo.roostCount or 0) + (gameInfo.rroostCount or 0)) < 1 then
-        return
+      return
     end
     waveMessage    = {}
     waveCount      = waveCount + 1
@@ -496,13 +552,13 @@ function widget:IsAbove(x, y)
   local hoverYMin = y1 + 160
   local yMargin = 7
   -- within unitdefs text row in chicken box and grace passed and more than 0 squads spawned
-  if hoverXMin < x and y1 + 145 < y and x < x1 + 270 and y < hoverYMin and currentTimeSeconds > gameInfo.gracePeriod and #GetSquadCountTable('Count', true) > 0 then
-    DeleteSpawnPanel()
+  if hoverXMin < x and y1 + 145 < y and x < x1 + 240 and y < hoverYMin and currentTime > gameInfo.gracePeriod and #GetSquadCountTable('Count', true) > 0 then
     local squadCountTable = GetSquadCountTable('Count', true)
+    DeleteSpawnPanel()
     spawnPanel = gl.CreateList(function()
-      local dropdownIndent = 100
+      local dropdownIndent = 130
       local squadDropdownHeight = (#squadCountTable)*(panelFontSize+panelSpacingY)+yMargin
-      DrawBlackAlphaBox(hoverXMin+5,hoverYMin,0,hoverXMin+185,hoverYMin-squadDropdownHeight,0)
+      DrawBlackAlphaBox(hoverXMin+35,hoverYMin,0,hoverXMin+160,hoverYMin-squadDropdownHeight,0)
       gl.PushMatrix()
       gl.Translate(x1, y1, 0)
 
@@ -518,6 +574,48 @@ function widget:IsAbove(x, y)
 
       gl.PopMatrix()
     end)
+  else
+    DeleteSpawnPanel()
+  end
+
+end
+
+function DeleteSpawnPanel()
+  if spawnPanel then
+    gl.DeleteList(spawnPanel)
+    spawnPanel = nil
+  end
+end
+
+function widget:IsAbove(x, y)
+  local hoverXMin = x1 + 110
+  local hoverYMin = y1 + 160
+  -- within unitdefs text row in chicken box and grace passed and more than 0 squads spawned
+  if hoverXMin < x and y1 + 145 < y and x < x1 + 270 and y < hoverYMin and currentTimeSeconds > gameInfo.gracePeriod then
+    local squadCountTable = GetUnitsInfo('Count', true)
+    if #squadCountTable > 0 then
+      DeleteSpawnPanel()
+      spawnPanel = gl.CreateList(function()
+        local squadDropdownHeight = (#squadCountTable)*(panelFontSize+squadSpacingY) + squadPaddingY
+        DrawBlackAlphaBox(hoverXMin+5,hoverYMin,0,hoverXMin+165,hoverYMin-squadDropdownHeight,0)
+        gl.PushMatrix()
+        gl.Translate(x1, y1, 0)
+
+        fontHandler.DisableCache()
+        fontHandler.UseFont(panelFont)
+        fontHandler.BindTexture()
+        for i, v in ipairs(squadCountTable) do
+          v = ShortenColorString(v, 21)
+          -- draw row with indentation and top padding
+          local displayListX, displayListY = SquadRow(1 + i)
+          fontHandler.DrawStatic(v, displayListX+93, displayListY-squadPaddingY)
+        end
+
+        gl.PopMatrix()
+      end)
+    else
+      DeleteSpawnPanel()
+    end
   else
     DeleteSpawnPanel()
   end
