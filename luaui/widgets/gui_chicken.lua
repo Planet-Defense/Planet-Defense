@@ -229,18 +229,11 @@ local function ShortenColorString(str, length)
   if #str:gsub('%W','')+2 > length then
     local substring = str:sub(0, length-2)
 
-    local brokenCommaColor = substring:find('\44\255', -10)
-    local brokenWhite = substring:find('\255', -3)
-    if brokenCommaColor then
-      substring = str:sub(0, brokenCommaColor-1)
-    elseif brokenWhite then
-      for i = #substring- brokenWhite, 0, -1 do
-        substring = substring..string.char(255)
-      end
-    else
-      -- cut off , character
-      substring = substring:gsub(',$','')
-    end
+    -- trim any non-word character from end
+    substring = substring:gsub('%W+$','')
+
+    -- cut off , character
+    substring = substring:gsub(',%s*$','')
 
     str = substring..white..'...'
   end
@@ -336,32 +329,13 @@ local function CreatePanelDisplayList()
   gl.PopMatrix()
 end
 
-local function DrawBlackAlphaBox(minX, minY, minZ, maxX, maxY, maxZ)
-   gl.BeginEnd(GL.QUADS, function()
-      gl.Color(0,0,0,0.45)
-      --// top
-      gl.Vertex(minX, maxY, minZ);
-      gl.Vertex(maxX, maxY, minZ);
-      gl.Vertex(maxX, maxY, maxZ);
-      gl.Vertex(minX, maxY, maxZ);
-      --// bottom
-      gl.Vertex(minX, minY, minZ);
-      gl.Vertex(minX, minY, maxZ);
-      gl.Vertex(maxX, minY, maxZ);
-      gl.Vertex(maxX, minY, minZ);
-   end);
+local function DrawBlackAlphaBox(minX, minY, maxX, maxY)
    gl.BeginEnd(GL.QUAD_STRIP, function()
-      --// sides
-      gl.Vertex(minX, minY, minZ);
-      gl.Vertex(minX, maxY, minZ);
-      gl.Vertex(minX, minY, maxZ);
-      gl.Vertex(minX, maxY, maxZ);
-      gl.Vertex(maxX, minY, maxZ);
-      gl.Vertex(maxX, maxY, maxZ);
-      gl.Vertex(maxX, minY, minZ);
-      gl.Vertex(maxX, maxY, minZ);
-      gl.Vertex(minX, minY, minZ);
-      gl.Vertex(minX, maxY, minZ);
+      gl.Color(0,0,0,0.45)
+      gl.Vertex(minX, minY, 0);
+      gl.Vertex(minX, maxY, 0);
+      gl.Vertex(maxX, minY, 0);
+      gl.Vertex(maxX, maxY, 0);
    end);
 end
 
@@ -445,6 +419,7 @@ end
 
 
 function ChickenEvent(chickenEventArgs)
+  local waveMessage    = {}
   if (chickenEventArgs.type == "wave") then
     waveTimeSeconds = currentTimeSeconds
     waveTimeTimer = Spring.GetTimer()
@@ -452,7 +427,6 @@ function ChickenEvent(chickenEventArgs)
     if ((gameInfo.roostCount or 0) + (gameInfo.rroostCount or 0)) < 1 then
       return
     end
-    waveMessage    = {}
     waveCount      = waveCount + 1
     waveMessage[1] = "Wave "..waveCount
     waveMessage[2] = waveColors[chickenEventArgs.tech]..chickenEventArgs.number.." "..aifaction
@@ -460,7 +434,6 @@ function ChickenEvent(chickenEventArgs)
   elseif (chickenEventArgs.type == "burrowSpawn") then
     UpdateRules()
   elseif (chickenEventArgs.type == "queen") then
-    waveMessage    = {}
     waveMessage[1] = "The "..side.." is angered!"
   elseif (chickenEventArgs.type == "score"..(Spring.GetMyTeamID())) then
     gotScore = chickenEventArgs.number
@@ -513,7 +486,8 @@ function widget:GameFrame(n)
     Spring.SendCommands({"luarules HasChickenEvent 1"})
     hasChickenEvent = true
   end
-  if (n%30< 1) then
+--  if (n%30< 1) then
+  if (n%1 == 0) then
     UpdateRules()
 
     if (not enabled and n > 0) then
@@ -546,40 +520,6 @@ function widget:MouseMove(x, y, dx, dy, button)
   end
 end
 
-
-function widget:IsAbove(x, y)
-  local hoverXMin = x1 + 110
-  local hoverYMin = y1 + 160
-  local yMargin = 7
-  -- within unitdefs text row in chicken box and grace passed and more than 0 squads spawned
-  if hoverXMin < x and y1 + 145 < y and x < x1 + 240 and y < hoverYMin and currentTime > gameInfo.gracePeriod and #GetSquadCountTable('Count', true) > 0 then
-    local squadCountTable = GetSquadCountTable('Count', true)
-    DeleteSpawnPanel()
-    spawnPanel = gl.CreateList(function()
-      local dropdownIndent = 130
-      local squadDropdownHeight = (#squadCountTable)*(panelFontSize+panelSpacingY)+yMargin
-      DrawBlackAlphaBox(hoverXMin+35,hoverYMin,0,hoverXMin+160,hoverYMin-squadDropdownHeight,0)
-      gl.PushMatrix()
-      gl.Translate(x1, y1, 0)
-
-      fontHandler.DisableCache()
-      fontHandler.UseFont(panelFont)
-      fontHandler.BindTexture()
-      for i, v in ipairs(squadCountTable) do
-        v = ShortenColorString(v, 19)
-        -- draw row with indentation and top margin
-        local displayListX, displayListY = PanelRow(1 + i, dropdownIndent)
-        fontHandler.DrawStatic(v, displayListX, displayListY-yMargin)
-      end
-
-      gl.PopMatrix()
-    end)
-  else
-    DeleteSpawnPanel()
-  end
-
-end
-
 function DeleteSpawnPanel()
   if spawnPanel then
     gl.DeleteList(spawnPanel)
@@ -597,7 +537,7 @@ function widget:IsAbove(x, y)
       DeleteSpawnPanel()
       spawnPanel = gl.CreateList(function()
         local squadDropdownHeight = (#squadCountTable)*(panelFontSize+squadSpacingY) + squadPaddingY
-        DrawBlackAlphaBox(hoverXMin+5,hoverYMin,0,hoverXMin+165,hoverYMin-squadDropdownHeight,0)
+        DrawBlackAlphaBox(hoverXMin+5,hoverYMin,hoverXMin+165,hoverYMin-squadDropdownHeight)
         gl.PushMatrix()
         gl.Translate(x1, y1, 0)
 
@@ -661,6 +601,11 @@ end
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 -- for debug
+
+local function log(v)
+  Spring.Echo(v)
+end
+
 function table.has_value(tab, val)
     for _, value in ipairs (tab) do
         if value == val then
