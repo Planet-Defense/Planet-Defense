@@ -47,36 +47,39 @@ local updatePanel
 local updateSpawnPanel
 
 local viewSizeX, viewSizeY = 0,0
-local w               = 300
-local h               = 210
-local x1              = - w - 50
-local y1              = - h - 50
-local panelMarginX    = 30
-local panelMarginY    = 40
-local panelSpacingY   = 7
-local squadPaddingY   = 12
-local squadPaddingX   = 10
-local squadSpacingY   = 1
-local waveSpacingY    = 7
+local w                    = 300
+local h                    = 210
+local x1                   = - w - 50
+local y1                   = - h - 50
+local panelMarginX         = 30
+local panelMarginY         = 40
+local panelSpacingY        = 7
+local squadPaddingY        = 12
+local squadPaddingX        = 10
+local squadSpacingY        = 1
+local waveSpacingY         = 7
+
+local waveCount            = 0
+local waveSpeed            = 0.2
+local scoreCount	         = 0
+local hasChickenEvent      = false
+local mo_level             = tonumber(Spring.GetModOptions().mo_level)
+local chickenEnabled       = mo_level == 6
+local waveMessage
 local moving
 local capture
 local gameInfo
-local waveSpeed       = 0.2
-local waveCount       = 0
 local currentTimeSeconds
 local waveTimeTimer
 local waveTimeSeconds
 local enabled
 local gotScore
-local scoreCount	  = 0
-
-local hasChickenEvent = false
-
-
 local side
 local aifaction
-local mo_level = tonumber(Spring.GetModOptions().mo_level)
-local chickenEnabled = mo_level == 6
+
+
+
+
 
 
 if chickenEnabled then
@@ -126,6 +129,7 @@ local waveFontSize   = fontHandler.GetFontSize()
 
 local function CommaValue(amount)
   local formatted = amount
+  local k
   while true do
     formatted, k = string.gsub(formatted, "^(-?%d+)(%d%d%d)", '%1,%2')
     if (k==0) then
@@ -419,7 +423,6 @@ end
 
 
 function ChickenEvent(chickenEventArgs)
-  local waveMessage    = {}
   if (chickenEventArgs.type == "wave") then
     waveTimeSeconds = currentTimeSeconds
     waveTimeTimer = Spring.GetTimer()
@@ -529,7 +532,7 @@ end
 
 function widget:IsAbove(x, y)
   -- pregame
-  if not currentTimeSeconds or not gameInfo.gracePeriod or not gameInfo or currentTimeSeconds < gameInfo.gracePeriod then
+  if not currentTimeSeconds or not gameInfo or not gameInfo.gracePeriod or currentTimeSeconds < gameInfo.gracePeriod then
     return
   end
 
