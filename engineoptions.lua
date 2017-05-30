@@ -26,8 +26,8 @@
 --
 
 local options = {
-     
-  
+
+
    {
        key="pa_others",
        name="Planet Annihilation - Other Settings",
@@ -41,7 +41,7 @@ local options = {
     type   = 'number',
     def    = 600,
     min    = 500,
-    max    = 600, --- engine caps at lower limit if more than 3 team are ingame
+    max    = 1000, --- engine caps at lower limit if more than 3 team are ingame
     step   = 1,  -- quantization is aligned to the def value
                     -- (step <= 0) means that there is no quantization
     section= "pa_others",

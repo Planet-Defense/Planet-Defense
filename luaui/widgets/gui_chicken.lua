@@ -530,6 +530,10 @@ end
 function widget:IsAbove(x, y)
   local hoverXMin = x1 + 110
   local hoverYMin = y1 + 160
+  if not currentTimeSeconds or not gameInfo.gracePeriod then
+    return
+  end
+
   -- within unitdefs text row in chicken box and grace passed and more than 0 squads spawned
   if hoverXMin < x and y1 + 145 < y and x < x1 + 270 and y < hoverYMin and currentTimeSeconds > gameInfo.gracePeriod then
     local squadCountTable = GetUnitsInfo('Count', true)
